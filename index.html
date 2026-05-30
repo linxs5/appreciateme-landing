@@ -216,6 +216,30 @@ section { padding: 110px 48px; }
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-up { transform: translateY(36px); }
+.reveal-fade { transform: none; }
+.reveal-scale { transform: translateY(18px) scale(0.96); }
+.reveal-left { transform: translateX(-32px); }
+.reveal-right { transform: translateX(32px); }
+.reveal-up.visible,
+.reveal-fade.visible,
+.reveal-scale.visible,
+.reveal-left.visible,
+.reveal-right.visible { transform: translate(0, 0) scale(1); }
+.reveal-stagger {
+  opacity: 1;
+  transform: none;
+}
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal-stagger.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--stagger-index, 0) * 70ms);
+}
 
 /* ─── HERO ─────────────────────────────────────────── */
 .hero {
@@ -235,12 +259,12 @@ section { padding: 110px 48px; }
   background-size: cover;
   background-position: center 30%;
   filter: grayscale(60%) brightness(0.35) contrast(1.1);
-  transform: scale(1.04);
+  transform: translate3d(0, var(--hero-parallax-y, 0px), 0) scale(1.04);
   animation: hero-breathe 18s ease-in-out infinite alternate;
 }
 @keyframes hero-breathe {
-  from { transform: scale(1.04); }
-  to   { transform: scale(1.09); }
+  from { transform: translate3d(0, var(--hero-parallax-y, 0px), 0) scale(1.04); }
+  to   { transform: translate3d(0, var(--hero-parallax-y, 0px), 0) scale(1.09); }
 }
 
 .hero-overlay {
@@ -1486,6 +1510,40 @@ footer {
   .hero-actions { align-items: flex-start; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal,
+  .reveal-up,
+  .reveal-fade,
+  .reveal-scale,
+  .reveal-left,
+  .reveal-right,
+  .reveal-stagger,
+  .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .ticker-track,
+  .hero-bg-img,
+  .live-dot,
+  .scroll-track,
+  .chart-line,
+  .chart-dot-end {
+    animation: none !important;
+  }
+  .chart-line { stroke-dashoffset: 0; }
+  .chart-dot-end { opacity: 1; }
+  .cursor-glow { display: none; }
+}
+
 /* smooth cursor glow */
 .cursor-glow {
   position: fixed;
@@ -1604,19 +1662,19 @@ footer {
 <div class="stat-bar">
   <div class="container">
     <div class="stat-bar-inner">
-      <div class="stat-item reveal">
+      <div class="stat-item reveal reveal-up">
         <div class="stat-num">$4.2K</div>
         <div class="stat-label">Average left on table — undocumented sale</div>
       </div>
-      <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-item reveal reveal-up reveal-delay-1">
         <div class="stat-num">38%</div>
         <div class="stat-label">Premium paid for verified builds at auction</div>
       </div>
-      <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-item reveal reveal-up reveal-delay-2">
         <div class="stat-num">73%</div>
         <div class="stat-label">Enthusiast owners have no service documentation</div>
       </div>
-      <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-item reveal reveal-up reveal-delay-3">
         <div class="stat-num">$0</div>
         <div class="stat-label">Tools built specifically for enthusiast asset tracking</div>
       </div>
@@ -1628,15 +1686,15 @@ footer {
 <section class="problem">
   <div class="container">
     <div class="sec-label">The problem</div>
-    <h2 class="sec-title reveal">Buyers don't trust<br><span class="g">your word.</span></h2>
+    <h2 class="sec-title reveal reveal-up">Buyers don't trust<br><span class="g">your word.</span></h2>
     <div class="problem-grid">
-      <div class="problem-text reveal">
+      <div class="problem-text reveal reveal-left">
         <p>You've poured <strong>thousands of hours and dollars</strong> into your car. Oil changes on schedule, new parts, careful maintenance — every dollar is real.</p>
         <p>Then you go to sell it. The buyer offers $5,000 less because you can't prove any of it. A shoebox of receipts and a "trust me bro" doesn't close deals at fair value.</p>
         <p>Meanwhile on Bring a Trailer and Cars & Bids, <strong>documented cars with photo evidence sell for 20–40% premiums</strong>. One seller flew a buyer across a continent — because his documentation was that convincing. The proof IS the money.</p>
         <p>There's no tool that builds this record for you. No platform that makes your maintenance history look more trustworthy than a folder of crumpled receipts. Until now.</p>
       </div>
-      <div class="problem-stats reveal reveal-delay-1">
+      <div class="problem-stats reveal reveal-right reveal-delay-1">
         <div class="p-stat">
           <div class="p-stat-num">$4.2K</div>
           <div class="p-stat-label">Avg money lost per sale<br>due to no documentation</div>
@@ -1662,27 +1720,27 @@ footer {
 <section class="how" id="how">
   <div class="container">
     <div class="sec-label">How it works</div>
-    <h2 class="sec-title reveal">Four steps to<br><span class="g">buyer trust.</span></h2>
-    <div class="steps-grid">
-      <div class="step reveal">
+    <h2 class="sec-title reveal reveal-up">Four steps to<br><span class="g">buyer trust.</span></h2>
+    <div class="steps-grid reveal-stagger">
+      <div class="step">
         <div class="step-num">01</div>
         <div class="step-icon-w">📝</div>
         <h3>Log your service</h3>
         <p>Add a maintenance entry in 30 seconds: type, date, mileage, cost, photo of the receipt. Dead simple. This is the foundation everything else builds on.</p>
       </div>
-      <div class="step reveal reveal-delay-1">
+      <div class="step">
         <div class="step-num">02</div>
         <div class="step-icon-w">📸</div>
         <h3>Attach the proof</h3>
         <p>Photos, receipts, timestamps. Every oil change has the receipt attached. Every brake job has the photo. Not AI verification — just real evidence a buyer can see and trust.</p>
       </div>
-      <div class="step reveal reveal-delay-2">
+      <div class="step">
         <div class="step-num">03</div>
         <div class="step-icon-w">🔗</div>
         <h3>Share one clean URL</h3>
         <p>Your car's full history on one page. The buyer opens it on their phone and sees a professional service record — not a folder of crumpled receipts. This is the moment they trust you.</p>
       </div>
-      <div class="step reveal reveal-delay-3">
+      <div class="step">
         <div class="step-num">04</div>
         <div class="step-icon-w">💰</div>
         <h3>Sell at full value</h3>
@@ -1696,10 +1754,10 @@ footer {
 <section class="maintenance" id="maintenance">
   <div class="container">
     <div class="sec-label">Stay on top of it</div>
-    <h2 class="sec-title reveal">Know what's due.<br><span class="g">Know what you've spent.</span></h2>
-    <p class="sec-sub reveal reveal-delay-1">Simple reminders based on mileage and time keep you logging between sale events. Cost tracking shows exactly how much has gone into your car — so you can price confidently and buyers can see what they're getting.</p>
-    <div class="maint-grid">
-      <div class="maint-panel reveal">
+    <h2 class="sec-title reveal reveal-up">Know what's due.<br><span class="g">Know what you've spent.</span></h2>
+    <p class="sec-sub reveal reveal-fade reveal-delay-1">Simple reminders based on mileage and time keep you logging between sale events. Cost tracking shows exactly how much has gone into your car — so you can price confidently and buyers can see what they're getting.</p>
+    <div class="maint-grid reveal-stagger">
+      <div class="maint-panel">
         <div class="maint-head">Maintenance dashboard</div>
         <div class="maint-item">
           <div>
@@ -1737,7 +1795,7 @@ footer {
           <span class="maint-badge mb-green">Documented</span>
         </div>
       </div>
-      <div class="maint-panel reveal reveal-delay-1">
+      <div class="maint-panel">
         <div class="maint-head">12-month cost forecast</div>
         <div class="forecast-item"><span class="name">Oil service (×2)</span><span class="cost">$70–$120</span></div>
         <div class="forecast-item"><span class="name">Brake fluid service</span><span class="cost">$100–$180</span></div>
@@ -1761,11 +1819,11 @@ footer {
 <section class="asset" id="asset">
   <div class="container">
     <div class="sec-label">Asset tracking</div>
-    <h2 class="sec-title reveal">Your car.<br><span class="g">Your portfolio.</span></h2>
-    <p class="sec-sub reveal reveal-delay-1">Real-time market valuation, total cost of ownership, equity position, and loan vs. value tracking — all in one dashboard that treats your car like the asset it actually is.</p>
+    <h2 class="sec-title reveal reveal-up">Your car.<br><span class="g">Your portfolio.</span></h2>
+    <p class="sec-sub reveal reveal-fade reveal-delay-1">Real-time market valuation, total cost of ownership, equity position, and loan vs. value tracking — all in one dashboard that treats your car like the asset it actually is.</p>
     <div class="asset-grid" style="margin-top:60px;">
       <!-- Phone mockup -->
-      <div class="reveal">
+      <div class="reveal reveal-scale">
         <div class="asset-phone">
           <div class="phone-screen">
             <div class="phone-status"><span>9:41</span><span>●●●</span></div>
@@ -1824,7 +1882,7 @@ footer {
         </div>
       </div>
       <!-- Feature list -->
-      <div class="asset-features reveal reveal-delay-1">
+      <div class="asset-features reveal reveal-right reveal-delay-1">
         <div class="af-item">
           <div class="af-icon">📈</div>
           <div class="af-text">
@@ -1869,9 +1927,9 @@ footer {
 <section class="chart-sec">
   <div class="container">
     <div class="sec-label">Market intelligence</div>
-    <h2 class="sec-title reveal">Your car has a price.<br><span class="g">Track it live.</span></h2>
-    <p class="sec-sub reveal reveal-delay-1">Stock-style chart for your exact vehicle. Not Kelly Blue Book averages — your specific car, your specific history, your specific market.</p>
-    <div class="chart-card reveal" style="margin-top:60px;">
+    <h2 class="sec-title reveal reveal-up">Your car has a price.<br><span class="g">Track it live.</span></h2>
+    <p class="sec-sub reveal reveal-fade reveal-delay-1">Stock-style chart for your exact vehicle. Not Kelly Blue Book averages — your specific car, your specific history, your specific market.</p>
+    <div class="chart-card reveal reveal-scale" style="margin-top:60px;">
       <div class="chart-header">
         <div>
           <div class="chart-car-name">2004 Acura RSX Type-S — Asset chart</div>
@@ -1927,11 +1985,11 @@ footer {
 <section class="community" id="community">
   <div class="container">
     <div class="sec-label">Community</div>
-    <h2 class="sec-title reveal">Built for real<br><span class="g">car people.</span></h2>
-    <p class="sec-sub reveal reveal-delay-1">Follow builds, compare setups, vote on what's clean, and see who's moving up this week. The data makes it sticky. The community makes it addictive.</p>
+    <h2 class="sec-title reveal reveal-up">Built for real<br><span class="g">car people.</span></h2>
+    <p class="sec-sub reveal reveal-fade reveal-delay-1">Follow builds, compare setups, vote on what's clean, and see who's moving up this week. The data makes it sticky. The community makes it addictive.</p>
     <div class="community-grid">
       <!-- Builds -->
-      <div class="builds-panel reveal">
+      <div class="builds-panel reveal reveal-left">
         <div class="builds-panel-head">
           Top builds this week
           <span>Live rankings</span>
@@ -1996,7 +2054,7 @@ footer {
         </div>
       </div>
       <!-- Sidebar -->
-      <div class="comm-sidebar reveal reveal-delay-1">
+      <div class="comm-sidebar reveal reveal-right reveal-delay-1">
         <div class="comm-panel">
           <div class="comm-panel-title">Market movers this week</div>
           <div class="mini-row">
@@ -2048,11 +2106,11 @@ footer {
 <section class="tiers" id="pricing">
   <div class="container">
     <div class="sec-label">Pricing</div>
-    <h2 class="sec-title reveal">Start free.<br><span class="g">Level up your way.</span></h2>
-    <p class="sec-sub reveal reveal-delay-1">Pay with your wallet — or pay with your rep. The more you contribute to the platform, the more you unlock for free.</p>
-    <div class="tiers-grid">
+    <h2 class="sec-title reveal reveal-up">Start free.<br><span class="g">Level up your way.</span></h2>
+    <p class="sec-sub reveal reveal-fade reveal-delay-1">Pay with your wallet — or pay with your rep. The more you contribute to the platform, the more you unlock for free.</p>
+    <div class="tiers-grid reveal-stagger">
       <!-- Free -->
-      <div class="tier-card reveal">
+      <div class="tier-card">
         <div class="tier-name">Garage</div>
         <div class="tier-sub">For getting started</div>
         <div class="tier-price">$0<span>/mo</span></div>
@@ -2071,7 +2129,7 @@ footer {
         <button class="btn-tier btn-tier-outline" onclick="window.location.href='https://appreciate-me-app.netlify.app/signup'">Get started free</button>
       </div>
       <!-- Enthusiast -->
-      <div class="tier-card featured reveal reveal-delay-1">
+      <div class="tier-card featured">
         <div class="tier-pop">Most popular</div>
         <div class="tier-name">Enthusiast</div>
         <div class="tier-sub">For serious asset owners</div>
@@ -2091,7 +2149,7 @@ footer {
         <button class="btn-tier btn-tier-fill" onclick="window.location.href='https://appreciate-me-app.netlify.app/signup'">Join beta — free at launch</button>
       </div>
       <!-- Apex -->
-      <div class="tier-card reveal reveal-delay-2">
+      <div class="tier-card">
         <div class="tier-name">Apex</div>
         <div class="tier-sub">For portfolio-level owners</div>
         <div class="tier-price">$29<span>.99/mo</span></div>
@@ -2117,10 +2175,10 @@ footer {
 <section class="rewards" id="rewards">
   <div class="container">
     <div class="sec-label">Rep system</div>
-    <h2 class="sec-title reveal">Earn your way.<br><span class="g">Or pay your way.</span></h2>
-    <p class="sec-sub reveal reveal-delay-1">Every action that makes the platform better earns you Rep. Rep unlocks premium features, exclusive merch drops, and a leaderboard position that the community respects.</p>
-    <div class="rewards-grid">
-      <div class="rew-panel reveal">
+    <h2 class="sec-title reveal reveal-up">Earn your way.<br><span class="g">Or pay your way.</span></h2>
+    <p class="sec-sub reveal reveal-fade reveal-delay-1">Every action that makes the platform better earns you Rep. Rep unlocks premium features, exclusive merch drops, and a leaderboard position that the community respects.</p>
+    <div class="rewards-grid reveal-stagger">
+      <div class="rew-panel">
         <div class="rew-head">Earn Rep by doing useful things</div>
         <div class="rew-row"><span class="rew-action">Log maintenance or a mod</span><span class="rew-pts">+50 Rep</span></div>
         <div class="rew-row"><span class="rew-action">Upload before / after photos</span><span class="rew-pts">+35 Rep</span></div>
@@ -2130,7 +2188,7 @@ footer {
         <div class="rew-row"><span class="rew-action">Check in at Cars & Coffee</span><span class="rew-pts">+75 Rep</span></div>
         <div class="rew-row"><span class="rew-action">Sell a car through the platform</span><span class="rew-pts">+500 Rep</span></div>
       </div>
-      <div class="rew-panel reveal reveal-delay-1">
+      <div class="rew-panel">
         <div class="rew-head">Rep unlocks real value</div>
         <div class="rew-row"><span class="rew-action">One month of Enthusiast tier</span><span class="rew-pts">1,000 Rep</span></div>
         <div class="rew-row"><span class="rew-action">Boosted profile visibility</span><span class="rew-pts">1,500 Rep</span></div>
@@ -2205,10 +2263,57 @@ document.addEventListener('mousemove', e => {
 });
 
 /* ── scroll reveal ── */
-const ro = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+
+revealEls.forEach(el => {
+  if (el.classList.contains('reveal-stagger')) {
+    Array.from(el.children).forEach((child, index) => {
+      child.style.setProperty('--stagger-index', index);
+    });
+  }
+});
+
+if (prefersReducedMotion.matches) {
+  revealEls.forEach(el => el.classList.add('visible'));
+} else {
+  const ro = new IntersectionObserver((entries, observer) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => ro.observe(el));
+}
+
+/* ── lightweight hero parallax ── */
+const heroBg = document.querySelector('.hero-bg-img');
+const parallaxMedia = window.matchMedia('(min-width: 1001px)');
+const canParallax = heroBg && !prefersReducedMotion.matches && parallaxMedia.matches;
+let parallaxTicking = false;
+
+function updateHeroParallax() {
+  if (!parallaxMedia.matches) {
+    heroBg.style.setProperty('--hero-parallax-y', '0px');
+    parallaxTicking = false;
+    return;
+  }
+  const y = Math.min(window.scrollY * 0.08, 36);
+  heroBg.style.setProperty('--hero-parallax-y', y.toFixed(1) + 'px');
+  parallaxTicking = false;
+}
+
+if (canParallax) {
+  window.addEventListener('scroll', function() {
+    if (!parallaxTicking) {
+      window.requestAnimationFrame(updateHeroParallax);
+      parallaxTicking = true;
+    }
+  }, { passive: true });
+  updateHeroParallax();
+}
 
 /* ── chart tabs ── */
 document.querySelectorAll('.ctab').forEach(tab => {
